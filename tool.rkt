@@ -21,12 +21,12 @@
       
       (define/augment (after-insert start len)
         (inner (void) after-insert start len)         
-        (when logging-enabled (write (~a "1 ," (date->string (current-date) #t) ", " (get-text start (+ start len))", "start ", " len "; \n") outputfile))
+        (when logging-enabled (write (~a "1 ," (current-inexact-milliseconds) ", " (get-text start (+ start len))", "start ", " len "; \n") outputfile))
           )
 
  (define/augment (on-delete start len)
         (inner (void) on-delete start len)
-        (when logging-enabled (write (~a "2 ," (date->string (current-date) #t)", "(get-text start (+ start len))", "start ", " len "; \n") outputfile))
+        (when logging-enabled (write (~a "2 ," (current-inexact-milliseconds)", "(get-text start (+ start len))", "start ", " len "; \n") outputfile))
 
    ))))
 
@@ -49,7 +49,7 @@
            [callback
             (λ (i e) (set! logging-enabled (not logging-enabled))
               (message-box "" (~a "Logging is " logging-enabled))
-             (write (~a "4, " (date->string (current-date) #t)", "  (send (get-definitions-text) get-text 0 300)) outputfile)
+             (write (~a "4, " (current-inexact-milliseconds)", "  (send (get-definitions-text) get-text 0 300)) outputfile)
             )]))
       (define/augment (on-close)
         (close-output-port outputfile)
@@ -65,7 +65,7 @@
       (inherit get-text)
        (define/augment (after-insert start len)
         (inner (void) after-insert start len)
-        (when logging-enabled (write(~a "3, " (date->string (current-date) #t)", " (get-text start (+ start len))", " start ", " len) outputfile))
+        (when logging-enabled (write(~a "3, " (current-inexact-milliseconds)", " (get-text start (+ start len))", " start ", " len) outputfile))
    ))))
       
 
